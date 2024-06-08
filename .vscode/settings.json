@@ -25,4 +25,20 @@
     "files.insertFinalNewline": true,
     "files.trimFinalNewlines": true,
     "files.trimTrailingWhitespace": true,
+    "latex-workshop.latex.tools": [
+        {
+            "name": "lualatexmk",
+            "command": "latexmk",
+            "args": [
+                "-synctex=1",
+                "-interaction=nonstopmode",
+                "-file-line-error",
+                "-lualatex",
+                "-shell-escape",
+                "-outdir=%OUTDIR%",
+                "%DOC%"
+            ],
+            "env": {}
+        },
+    ],
 }
