@@ -6,6 +6,9 @@
 \input{styles/language.tex}
 \input{styles/utils.tex}
 
+\usepackage{kaobiblio}
+\addbibresource{FormalLanguageConstrainedReachabilityLectureNotes.bib}
+
 \title{О достижимости с ограничениями в терминах формальных языков}
 \author{Семён Григорьев}
 \date{\today}
@@ -20,5 +23,14 @@
 \input{List_of_contributors}
 
 \mainmatter
+\setchapterstyle{kao}
+\setchapterpreamble[u]{\margintoc}
+
+\input{Introduction}
+
+\backmatter
+\setchapterstyle{plain}
+
+\printbibliography
 
 \end{document}
