@@ -63,6 +63,7 @@
     Регулярное выражение $a$ задаёт регулярное множество $\{a\}$ и, соответственно, язык из единственного слова $a$.
 \end{example}
 
+
 \begin{example}
     Регулярное выражение $ab$ задаёт регулярное множество $\{ab\}$ и, соответственно, язык из единственного слова $ab$.
 \end{example}
@@ -71,7 +72,6 @@
 \begin{example}
     Регулярное выражение $a^*$ задаёт регулярное множество $$R = \bigcup_{i=0}^{\infty}{a^i} = \{\varepsilon, a, aa, aaa, \ldots \}$$ и, соответственно, бесконечный язык, содержащий для любого неотрицательного целого $n$ цепочку из символов $a$ длины $n$.
 \end{example}
-
 
 \begin{example}
     $a^*b$
@@ -117,18 +117,52 @@
     Будем говорить, что автомат $M = \langle Q, Q_S, Q_F, \delta, \Sigma \rangle$ может перейти из конфигурации $c_1 = (q_1, w_1)$ в конфигурацию $c_2 = (q_2, w_2)$, если
     \[c_2 \in \{(q_2,w_2) \mid w_1 = aw_2, (q_1,a, q_2) \in \delta\} \cup \{(q_2,w_1) \mid (q_1, \varepsilon, q_2) \in \delta\}.\]
     Обозначать этот факт будем как $c_1 \to c_2$.
+    Также будем считать, что на множестве конфигураций задано отношение перехода $(\to):(Q \times \Sigma^*)\times(Q \times \Sigma^*)$.
+    
 \end{definition}
 
-\marginnote{TODO: Без идей что тут написано, но жирная стрелочка для перехода выглядит естественнее}
-$$С_2 = \{(q_2,w_2) \mid w_1 = aw_2, (q_1,a, q_2) \in \delta\} \cup \{(q_2,w_1) \mid (q_1, \varepsilon, q_2) \in \delta\}.$$
-$$ c_1 \Rightarrow C_2 $$
+\begin{definition}
+    Транзитивное замыкание отношения перехода на конфигурациях будем обозначать следующим образом: $$ c_1 \to^* c_2. $$
+    Альтернативно, в случае если $c_1 \to^* c_2$, будем говорить, что конфигурация $c_2$ \textit{достижима} из конфигурации $c_1$.
+\end{definition}
 
+Для удобства работы с недетерминированными автоматами расширим это отношение на множество конфигураций.
 
-Стартовая конфигурация.
+\begin{definition}
+Будем говорить, что автомат может перейти из множества конфигураций $C_1$ в множество конфигураций $C_2$, если 
+$$C_2 = \bigcup_{c_1 \in C_1} \{c_2 \mid c_1 \to c_2 \}.$$
 
-Финальная конфигурация.
+Обозначать этот факт будем как  $C_1 \Rightarrow C_2 $.
+\end{definition}
 
-Ошибочная конфигурация.
+\begin{definition}
+Транзитивное замыкание отношения перехода на множествах конфигураций будем обозначать следующим образом: $$ C_1 \Rightarrow^* C_2. $$
+\end{definition}
+
+Для описания работы автомата $M = \langle Q, Q_S, Q_F, \delta, \Sigma \rangle$ нам понадобятся следующие выделенные типы конфигураций.
+\begin{itemize}
+    \item Стартовая конфигурация $c_s = (q_s,w)$, $q_s \in Q_S$, $w$ --- цепочка, которая подаётся на вход автомату. 
+    Для недетерминированного автомата естественно задать множество стартовых конфигурация $C_S = \bigcup_{q_s \in Q_S} (q_s,w)$.
+    \item Финальная (принимающая) конфигурация $c_f = (q_f,\varepsilon)$, $q_f \in Q_F$.
+\end{itemize}
+
+Таким образом, работу автомата можно описать как последовательность переходов между множествами конфигураций. 
+Работа начинается с множества стартовых конфигураций и завершается в следующих двух случаях.
+\begin{enumerate}
+    \item Очередное множество конфигураций содержит финальную конфигурацию:
+    $$c_f \in C_S \text{ или } C_S \Rightarrow^* C_i, c_f \in C_i.$$ В этом случае говорят, что автомат \textit{принимает} входную строку.
+    \item Очередное множество конфигураций пусто:
+    $$C_0 = C_S \Rightarrow^* C_i \Rightarrow^* \varnothing, \text{ для любого } i: c_f \notin C_i.$$ 
+    В этом случае говорят, что автомат \textit{не принимает} или \textit{отвергает} входную строку.
+\end{enumerate} 
+
+\begin{definition}
+    Язык задаваемый автоматом $$\{w \mid \}$$
+\end{definition}
+
+Так как конфигурация полностью описывает состояние процесса вычислений, то не надо обрабатывать одну и ту же конфигурацию несколько раз. 
+Это поможет при написании реального интерпретатора. 
+Будем отслеживать уже посещённые (обработанные) конфигурации\footnote{Техника, аналогичная той, что применяется в обходах графов (обход в ширину, обход в глубину) для того, чтобы избежать повторного посещения вершин и, как следствие, зацикливания обхода. Более того, она типична для алгоритмов с рабочим множеством.}. 
 
 \begin{example}
     Пример интерпретации конечного автомата.
@@ -141,12 +175,15 @@ $$ c_1 \Rightarrow C_2 $$
         \item $Q$~--- конечное множество состояний;
         \item $q_S \in Q$~--- стартовое состояние;
         \item $Q_F \subseteq Q$~--- множество финальных состояний;
-        \item $\delta \subseteq Q \times \Sigma \times Q$~--- функция переходов;
+        \item $\delta \subseteq Q \times \Sigma \times Q$~--- функция переходов\footnote{Частично определённая.};
         \item $\Sigma$~--- конечный алфавит.
     \end{itemize}
 \end{definition}
 
-Заметим, что функцию переходов можно представить разными способами в зависимости от того, как именно представлена функция переходов: список троек, матрица, граф.
+Отличие --- функция переходов. Нет переходов по $\varepsilon$ и из любого состояния не более одного перехода по символу.
+Ещё стартовое состояние одно.
+
+Заметим, что функцию переходов можно представить разными способами В зависимости от того, как именно представлена функция переходов: список троек, матрица, граф.
 
 \begin{example}
     Пример КА.
@@ -159,13 +196,155 @@ $$ c_1 \Rightarrow C_2 $$
     Пример интерпретации конечного автомата.
 \end{example}
 
-Построение КА по регулярному выражению и регулярному выражению по КА. На производных.
+\section{Производные для регулярных языков}
 
-Построение регулярного выражения по КА.
+Предложены в~\cite{Brzozowski1964}
 
-Алгоритмы: проверка пустоты ...
+По мотивам~\cite{OWENS_REPPY_TURON_2009}
+
+\begin{itemize}
+    \item $\partial_t(\varepsilon) = \varnothing$
+    \item $\partial_t(\varnothing) = \varnothing$
+    \item $\partial_t(x) = $
+    \item $\partial_t(R_1 \cdot R_2) = \partial_t(R_1) \cdot (R_2) \mid $
+    \item $\partial_t(R_1 \mid R_2) = \partial_t(R_1) \mid \partial_t(R_2) $
+    \item $\partial_t(R^*) = $\footnote{Интересное упражнение --- показать это, расписав по определению звезду Клини.}
+\end{itemize}
+
+Проверка на пустоту (часто isNull).
+
+\begin{itemize}
+    \item $IsNull(\varepsilon) = false$
+    \item $\partial_t(\varnothing) = \varnothing$
+    \item $\partial_t(x) = $
+    \item $\partial_t(R_1 \cdot R_2) = \partial_t(R_1) \cdot (R_2) \mid $
+    \item $\partial_t(R_1 \mid R_2) = \partial_t(R_1) \mid \partial_t(R_2) $
+    \item $\partial_t(R^*) = $\footnote{Интересное упражнение --- показать это, расписав по определению звезду Клини.}
+\end{itemize}
+
+Проверка пустоты регулярного языка\footnote{!!!!}
+
+
+\section{Построение конечного автомата по регулярному выражению}
+ 
+На производных.
 
 Примеры.
+
+\section{Построение регулярного выражения по конечному автомату}
+
+Регулярное выражение будем строить по недетерминированному автомату специального вида: потребуем, чтобы у него было ровно одно стартовое состояние и ровно одно финальное\footnote{Любой автомат легко привести к такому виду: добавить состояния и $\varepsilon$-переходы}. 
+
+Будем в цикле выполнять последовательно две операции.
+Первая: объединение параллельных рёбер.
+Вторая: устранение вершины $v$. За один шаг можем устранить любую кроме стартовой или финальной.
+Цикл повторяется до тех пор, пока в автомате не останется ровно два состояния: стартовое и финальное.
+
+До объединения параллельных рёбер
+\begin{tikzpicture}
+
+\node[state] (q_0)          {$q_i$};
+\node[state] (q_1) [right of = q_0]  {$q_j$};
+\path[->]
+  (q_0) edge[bend left, above]  node {$R_1$} (q_1)
+  (q_0) edge[bend right, below]  node {$R_2$} (q_1)
+  ;
+\end{tikzpicture}
+
+После объединения параллельных рёбер.
+
+\begin{tikzpicture}
+
+    \node[state] (q_0)          {$q_i$};
+    \node[state] (q_1) [right of = q_0]  {$q_j$};
+    \path[->]
+      (q_0) edge[above]  node {$R_1 \mid R_2$} (q_1)
+      ;
+    \end{tikzpicture}
+    
+
+\begin{tikzpicture}
+
+\begin{scope}[node distance=10mm and 10mm]
+   \node[state] (p_0)          {$p_0$};
+   \node[text width=0.3cm]  (p_1) [below of = p_0] {$\vdots$}; 
+   \node[state] (p_2) [below of = p_1]  {$p_i$};
+   \node[text width=0.3cm] (p_3) [below of = p_2]  {$\vdots$};
+\end{scope}
+
+\node[state] (v_0) [right of = p_2] {$v$};
+
+\begin{scope}[node distance=10mm and 10mm]
+    \node[state] (q_2) [right of = v_0] {$q_j$};
+    \node[text width=0.3cm] (q_1) [above of = q_2]  {$\vdots$};
+    \node[state] (q_0) [above of = q_1]  {$q_0$};
+    \node[text width=0.3cm] (q_3) [below of = q_2]  {$\vdots$};
+\end{scope}
+
+\path[->]
+  (p_0) edge[above]  node {$R_{p_0}$} (v_0)
+  (p_2) edge[below]  node {$R_{p_i}$} (v_0)
+  (v_0) edge[right]  node {$R_{q_0}$} (q_0)
+  (v_0) edge[above]  node {$R_{q_j}$} (q_2)
+  (v_0) edge[loop above, above]  node {$R_v$} (v_0);
+\end{tikzpicture}
+
+
+\begin{tikzpicture}
+
+    \begin{scope}[node distance=10mm and 10mm]
+       \node[state] (p_0)          {$p_0$};
+       \node[text width=0.3cm]  (p_1) [below of = p_0] {$\vdots$}; 
+       \node[state] (p_2) [below of = p_1]  {$p_i$};
+       \node[text width=0.3cm] (p_3) [below of = p_2]  {$\vdots$};
+    \end{scope}
+    
+    \node[text width=0.3cm] (v_0) [right of = p_2] {};
+    
+    \begin{scope}[node distance=10mm and 40mm]
+        \node[state] (q_2) [right of = v_0] {$q_j$};
+        \node[text width=0.3cm] (q_1) [above of = q_2]  {$\vdots$};
+        \node[state] (q_0) [above of = q_1]  {$q_0$};
+        \node[text width=0.3cm] (q_3) [below of = q_2]  {$\vdots$};    
+    \end{scope}
+    
+    \path[->]
+      (p_0) edge[bend left, above]  node {$R_{p_0} R_v^* R_{q_0}$} (q_0)
+      (p_0) edge[bend left, left]  node {$R_{p_0} R_v^* R_{q_j}$} (q_2)
+      (p_2) edge[bend right, left]  node {$R_{p_i} R_v^* R_{q_0}$} (q_0)
+      (p_2) edge[bend right, below]  node {$R_{p_0} R_v^* R_{q_0}$} (q_2);
+    \end{tikzpicture}
+
+$p_i v q_j$
+
+$p_i \xrightarrow{R_{p_i}} v$
+$v \xrightarrow{R_{q_j}} q_i$
+$v \xrightarrow{R_v} v$
+$p_i \xrightarrow{R_{p_i} \cdot R_v^* \cdot R_{q_j}} q_j$
+
+По финальному автомату с двумя состояниями построим регулярное выражение, которое би будет ответом.
+
+\begin{tikzpicture}
+    \node[isosceles triangle,
+    isosceles triangle apex angle=60,
+    draw=none,fill=none,
+    minimum size=2cm] (T60) at (3,0){};
+
+\node[state, initial] (q_0)          {$0$};
+\node[state, accepting] (q_1) [right of = q_0]  {$1$};
+\path[->]
+  (q_0) edge[bend left, above]  node {$R_2$} (q_1)
+  (q_1) edge[bend left, below]  node {$R_4$} (q_0)
+  (q_1) edge[loop right, right]  node {$R_3$} (q_1)
+  (q_0) edge[loop above, above]  node {$R_1$} (q_0);
+\end{tikzpicture}
+
+$R_1^* \cdot (R_2 \cdot R_3^* \cdot R_4 \cdot R_1^*)^* \cdot R_2 \cdot R_3^*$
+
+
+
+Примеры.
+
 
 
 \section{Лево(право)линейные грамматики}
@@ -249,7 +428,7 @@ $$ c_1 \Rightarrow C_2 $$
 \end{figure}
 
 
-\section{Замкнутость регулярных языков относительно операций}
+\section{Замкнутость регулярных языков относительно теоретико-множественных операций}
 
 \begin{theorem}
     Регулярные языки замкнуты относительно перечисленных ниже операций.
