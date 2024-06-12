@@ -7,17 +7,19 @@
 \input{styles/language.tex}
 \input{styles/utils.tex}
 \input{styles/tikz.tex}
+\input{styles/math.tex}
+\input{styles/theorems.tex}
 
-\usepackage{microtype}
-
-\usepackage{kaobiblio}
+\usepackage{kaobiblio} % Обертка для biblatex, позволяет печатать сноску сбоку
 \addbibresource{FormalLanguageConstrainedReachabilityLectureNotes.bib}
+
+\SetAlgorithmName{Листинг}{листинг}{Список листингов}
 
 \tikzexternalize
 
 \title{О достижимости с ограничениями в терминах формальных языков}
 \author{Семён Григорьев}
-\date{\today}
+\date{\gitVer{}}
 
 \begin{document}
 
@@ -30,9 +32,14 @@
 
 \mainmatter
 \setchapterstyle{kao}
-\setchapterpreamble[u]{\margintoc}
 
 \input{Introduction}
+
+\pagelayout{wide} % No margins
+\addpart{Необходимые вводные}
+\pagelayout{margin} % Restore margins
+
+\input{LinearAlgebra}
 
 \backmatter
 \setchapterstyle{plain}
