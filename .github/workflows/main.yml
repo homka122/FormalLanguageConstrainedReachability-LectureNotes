@@ -1,69 +1,38 @@
-# This is a basic workflow to help you get started with Actions
+name: Build latest PDF
 
-name: CI
-
-# Controls when the workflow will run
 on:
-  # Triggers the workflow on push or pull request events but only for the main branch
   push:
+    branches:
+      # PRs can only use caches from their target branch. We therefore need to
+      # make sure we run on 'main' too.
+      - main
   pull_request:
-  
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
 
-# A workflow run is made up of one or more jobs that can run sequentially or in parallel
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
 jobs:
-  # This workflow contains a single job called "build"
-  build:
-    # The type of runner that the job will run on
+  style:
+    name: Build latest PDF
     runs-on: ubuntu-latest
-
-    # Steps represent a sequence of tasks that will be executed as part of the job
     steps:
-      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - name: Set up Git repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
-      # First run of pdflatex.
-      - name: First pdflatex FormalLanguageConstrainedReachabilityLectureNotes
-        uses: dante-ev/latex-action@latest
+      - name: Compile LaTeX document
+        uses: xu-cheng/latex-action@v3
         with:
-          working_directory: tex
-          root_file: FormalLanguageConstrainedReachabilityLectureNotes.tex
-          compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
-          
-      # Bibliography generation
-      - name: bibtex FormalLanguageConstrainedReachabilityLectureNotes
-        uses: dante-ev/latex-action@latest
+          root_file: tex/main.tex
+          work_in_root_file_dir: true
+          latexmk_use_lualatex: true
+
+      - name: Rename PDF
+        run: |
+          mv tex/main.pdf tex/FormalLanguageConstrainedReachabilityLectureNotes.pdf
+
+      - name: Upload PDF file
+        uses: actions/upload-artifact@v4
         with:
-          working_directory: tex
-          root_file: FormalLanguageConstrainedReachabilityLectureNotes.aux
-          compiler: bibtex    
-          args: 
-          
-      # Second compilation
-      - name: Second pdflatex FormalLanguageConstrainedReachabilityLectureNotes
-        uses: dante-ev/latex-action@latest
-        with:
-          working_directory: tex
-          root_file: FormalLanguageConstrainedReachabilityLectureNotes.tex
-          compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape    
-          
-      # Final compilation
-      - name: Final pdflatex FormalLanguageConstrainedReachabilityLectureNotes
-        uses: dante-ev/latex-action@latest
-        with:
-          working_directory: tex
-          root_file: FormalLanguageConstrainedReachabilityLectureNotes.tex
-          compiler: pdflatex
-          args: -interaction=nonstopmode -shell-escape
- 
-      # Publish compiled pdf
-      - name: Upload
-        uses: actions/upload-artifact@v2
-        with: 
           name: FormalLanguageConstrainedReachabilityLectureNotes_latest
           path: tex/FormalLanguageConstrainedReachabilityLectureNotes.pdf
-    
