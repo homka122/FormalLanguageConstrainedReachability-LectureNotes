@@ -277,4 +277,5 @@ TSWLatexianTemp*
 
 tex/FormalLanguageConstrainedReachabilityLectureNotes.pdf
 tex/figures/externalized/*
+!tex/figures/externalized/.gitkeep
 tex/main.pdf
