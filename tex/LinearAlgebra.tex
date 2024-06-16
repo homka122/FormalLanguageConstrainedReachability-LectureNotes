@@ -106,7 +106,6 @@
         \item Операция конкатенации на строках $\cdot$ является ассоциативной:
               \[("a" \cdot "b") \cdot "c"  = "a" \cdot ("b" \cdot "c") = "abc".\]
         \item Операция возведения в степень (над целыми числами) $\hat{\mkern6mu}$ не является ассоциативной:
-              \marginnote{TODO: Мне не нравится этот символ. Может убрать обозначения из текста выше, а в формуле нарисовать башенку?}
               \[(2\hat{\mkern6mu}2)\hat{\mkern6mu}3 = 4 \hat{\mkern6mu} 3 = 64 \neq 256 = 2 \hat{\mkern6mu} 8 = 2\hat{\mkern6mu}(2\hat{\mkern6mu}3).\]
     \end{itemize}
 \end{example}
@@ -412,35 +411,32 @@
     \item \emph{алгебраические}~--- определение таковых опирается на свойства алгебраической структуры, над которой построена матрица.
 \end{itemize}
 
-\marginnote{TODO: Пример ниже чуток вылезает}
 Примерами структурных операций является \emph{транспонирование}, \emph{взятие подматрицы} и \emph{взятие элемента по индексу}.
 
-\begin{marginfigure}
-    \[
-        \begin{pmatrix}
-            "a"  & "ba"  & "cb" \\
-            "ac" & "bab" & "b"
-        \end{pmatrix}^\top =
-        \begin{pmatrix}
-            "a"  & "ac"  \\
-            "ba" & "bab" \\
-            "cd" & "b"
-        \end{pmatrix}
-    \]
-    \caption{Пример транспонирования}
-\end{marginfigure}
+\marginnote{
+    \begin{example}
+        Транспонирование матрицы.
+        \[
+            \begin{pmatrix}
+                "a"  & "ba"  & "cb" \\
+                "ac" & "bab" & "b"
+            \end{pmatrix}^\top =
+            \begin{pmatrix}
+                "a"  & "ac"  \\
+                "ba" & "bab" \\
+                "cd" & "b"
+            \end{pmatrix}
+        \]
+    \end{example}
+}
 \begin{definition}[Транспонирование матрицы]
     Пусть дана матрица $M_{n \times m}$.
-    Тогда результат её \emph{транспонирования}, это такая матрица $M'_{m \times n}$, что $M'[i,j] = M[j,i]$ для всех $0\leq i \leq m - 1$ и $0\leq j \leq n - 1$.
+    Тогда результат её \emph{транспонирования}, это такая матрица $M'_{m \times n}$, что $M'[i,j] = M[j,i]$ для всех $i \in [0 : m - 1]$ и $j \in [0 : n - 1]$.
 
     Операцию транспонирования принято обозначать как $M^\top$.
 \end{definition}
 
 \begin{definition}[Прямая сумма матриц]
-    \marginnote{TODO: Здесь точно большой плюс?
-        TODO: Я ниже заменил $..$ на $\dots$ может быть это не самая лучшая идея, хотя вроде дальше особо такое не используется.
-        У Виноградова в учебнике используется довольно прикольная как по мне нотация $[a : b] = \{x \mid a \leq x \leq b\}$, как раз для целочисленных интервалов.
-        TODO: "Рис" надо заменить на "Пример"}
     Пусть даны матрицы $M_{n_1 \times m_1}$ и $N_{n_2 \times m_2}$.
     Тогда \emph{прямой суммой} этих матриц называется матрица $L_{(n_1 + n_2) \times (m_1 + m_2)}$ вида
     \[
@@ -450,38 +446,42 @@
             0 & N
         \end{pmatrix}
     \]
-    Где 0 обозначает нулевой блок. Прямая сумма обозначается $L = M \bigoplus N$.
+    Где 0 обозначает нулевой блок. Прямая сумма обозначается $L = M \oplus N$.
 \end{definition}
 
-\begin{marginfigure}
-    \begin{align*}
-        \begin{pmatrix}
-            "a"  & "ba"  & "cb" \\
-            "ac" & "bab" & "b"
-        \end{pmatrix} & [0 \dots 1, 1 \dots 2] = \\
-        ={}                    & \begin{pmatrix}
-                                     "ba"  & "cb" \\
-                                     "bab" & "b"
-                                 \end{pmatrix}
-    \end{align*}
-    \caption{Пример взятия подматрицы}
-\end{marginfigure}
+\marginnote{
+    \begin{example}
+        Взятие подматрицы.
+        \begin{multline*}
+            \begin{pmatrix}
+                "a"  & "ba"  & "cb" \\
+                "ac" & "bab" & "b"
+            \end{pmatrix} [0 : 1, 1 : 2] = \\
+            = \begin{pmatrix}
+                "ba"  & "cb" \\
+                "bab" & "b"
+            \end{pmatrix}
+        \end{multline*}
+    \end{example}
+}
 \begin{definition}[Взятие подматрицы]
     Пусть дана матрица $M_{n\times m}$.
-    Тогда $M_{n \times m}[i_0 \dots i_1, j_0 \dots j_1]$~--- это такая $M'_{(i_1 - i_0 + 1) \times (j_1 - j_0 + 1)}$, что $M'[i, j] = M[i_0 + i, j_0 + j]$ для всех $0 \leq i \leq i_1 - i_0 + 1$ и $0 \leq j \leq j_1 - j_0 + 1$.
+    Тогда $M_{n \times m}[i_0 : i_1, j_0 : j_1]$~--- это такая $M'_{(i_1 - i_0 + 1) \times (j_1 - j_0 + 1)}$, что $M'[i, j] = M[i_0 + i, j_0 + j]$ для всех $i \in [0 : i_1 - i_0 + 1]$ и $j \in [0 : j_1 - j_0 + 1]$.
 \end{definition}
 
-\begin{marginfigure}
-    \[
-        \begin{pmatrix}
-            "a"  & "ba"  & "cb" \\
-            "ac" & "bab" & "b"
-        \end{pmatrix}[0, 1] = "ba"
-    \]
-    \caption{Пример взятия элемента по индексу}
-\end{marginfigure}
+\marginnote{
+    \begin{example}
+        Взятие элемента по индексу.
+        \[
+            \begin{pmatrix}
+                "a"  & "ba"  & "cb" \\
+                "ac" & "bab" & "b"
+            \end{pmatrix}[0, 1] = "ba"
+        \]
+    \end{example}
+}
 \begin{definition}[Взятие элемента по индексу]
-    \emph{Взятие элемента по индексу}~--- это частный случай взятия подматрицы, когда начало и конец\enquote{среза} совпадают: $M[i, j] = M[i \dots i, j\dots j]$
+    \emph{Взятие элемента по индексу}~--- это частный случай взятия подматрицы, когда начало и конец\enquote{среза} совпадают: $M[i, j] = M[i : i, j : j]$
 \end{definition}
 
 Из алгебраических операций над матрицами нас в дальнейшем будут интересовать \emph{поэлементные операции}, \emph{скалярные операции}, \emph{матричное умножение}, \emph{произведение Кронекера}.
@@ -550,7 +550,7 @@
 \begin{definition}[Матричное умножение]
     \label{def:MxM}
     Пусть $G = (S, \oplus, \otimes)$~--- полукольцо, $M_{n \times m}$, $N_{m\times k}$~--- две матрицы над этим полукольцом.
-    Тогда $M \cdot N = P_{n \times k}$, такая, что $P[i, j] = \bigoplus_{0 \leq l < m} M[i, l] \otimes N[l, j]$.
+    Тогда $M \cdot N = P_{n \times k}$, такая, что $P[i, j] = \bigoplus_{l \in [0 : m - 1]} M[i, l] \otimes N[l, j]$.
 \end{definition}
 
 \begin{example}
@@ -582,19 +582,17 @@
     \]
 \end{example}
 
-
 \begin{definition}[Произведение Кронекера]
     Пусть $G = (S, \circ)$~--- полугруппа, $M_{m \times n}$ и $N_{p \times q}$~--- две матрицы над этой полугруппой.
-    Тогда произведение Кронекера или тензорное произведение матриц $M$ и $N$~--- это блочная матрица $C$ размера $mp \times nq$, вычисляемая следующим образом:
-    \[
-        C = A \otimes B =
+    Тогда \emph{произведение Кронекера} или \emph{тензорное произведение} матриц $M$ и $N$~--- это блочная матрица $K$ размера $mp \times nq$, вычисляемая следующим образом:
+    \begin{multline*}
+        K = M \otimes N = \\
         \begin{pmatrix}
             \mathrm{scalar}(M[0,0],N,\circ)   & \cdots & \mathrm{scalar}(M[0,n-1],N,\circ)   \\
             \vdots                            & \ddots & \vdots                              \\
             \mathrm{scalar}(M[m-1,0],N,\circ) & \cdots & \mathrm{scalar}(M[m-1,n-1],N,\circ)
         \end{pmatrix}
-    \]
-    \marginnote{TODO: Здесь вылезло}
+    \end{multline*}
 \end{definition}
 
 \begin{remark}
@@ -603,6 +601,7 @@
     При этом всегда существуют две матрицы перестановок $P$ и $Q$ такие, что $A \otimes B = P(B \otimes A)Q$.
 \end{remark}
 
+\begingroup
 \newcommand{\examplemtrx}
 {
     \begin{pmatrix}
@@ -650,6 +649,7 @@
         \end{pNiceArray}
     \end{align*}
 \end{example}
+\endgroup
 
 \section{Теоретическая сложность умножения матриц}
 
@@ -697,7 +697,6 @@
 Пусть $A$ и $B$~--- две квадратные матрицы размера $2^n \times 2^n$ над кольцом $R=(S, \oplus, \otimes)$.
 Если размер умножаемых матриц не является натуральной степенью двойки, то дополняем исходные матрицы дополнительными нулевыми строками и столбцами.
 Наша задача найти матрицу $C = A \cdot B$.
-\marginnote{TODO: Только здесь заметил, а не хотим ли мы красную строку, всё-таки в России живем?}
 
 Разделим матрицы $A, B$ и $C$ на четыре равные по размеру блока.
 \[
