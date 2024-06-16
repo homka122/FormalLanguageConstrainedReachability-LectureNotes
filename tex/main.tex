@@ -14,7 +14,10 @@
 \usepackage{kaobiblio} % Обертка для biblatex, позволяет печатать сноску сбоку
 \addbibresource{FormalLanguageConstrainedReachabilityLectureNotes.bib}
 
-\SetAlgorithmName{Листинг}{листинг}{Список листингов}
+\usepackage[]{pseudo}
+\newtcbtheorem{algorithm}{Листинг}{pseudo/booktabs, float, floatplacement=h, separator sign={.}}{algo}
+
+
 
 \tikzexternalize
 
