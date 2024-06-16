@@ -216,15 +216,15 @@
 \begin{example}
     Рассмотрим несколько примеров групп.
     \begin{itemize}
-        \item Целые числа $\Z$ с операцией сложения $+$ являются группой.
+        \item Целые числа $\BbbZ$ с операцией сложения $+$ являются группой.
               Получается дополнением моноида из предыдущего раздела обратными по сложению элементами.
-        \item Целые числа $\Z$ без нуля%
+        \item Целые числа $\BbbZ$ без нуля%
               \sidenote{
                   При наличии нуля возникают трудности с нейтральным элементом.
                   Логично считать $1$ нейтральным по умножению, однако $0 \cdot 1 = 0$, а не 1, как того требует определение.}
               с операцией умножения $\cdot$ не являются группой, так как нет обратных по умножению.
-              Действительно, возьмём $a = 3$, тогда должен существовать $a^{-1} \in \Z$, такой что $3 \cdot a^{-1} = 1$.
-              Видим, что $a^{-1} = 1/3$, но $1/3 \notin \Z$.
+              Действительно, возьмём $a = 3$, тогда должен существовать $a^{-1} \in \BbbZ$, такой что $3 \cdot a^{-1} = 1$.
+              Видим, что $a^{-1} = 1/3$, но $1/3 \notin \BbbZ$.
         \item Множество обратимых%
               \sidenote{
                   Квадратная матрица $M$ называется обратимой, если существует матрица $N$, называемая обратной, такая что $M \cdot N = N \cdot M = I$, где $I$~--- единичная матрица.
@@ -238,25 +238,25 @@
 \begin{definition}[Полукольцо]
     Непустое множество $R$ с двумя бинарными операциями $\oplus: R \times R \to R$ (часто называют сложением) и $\otimes: R \times R \to R$ (часто называют умножением) называется \emph{полукольцом}, если выполнены следующие условия.
     \begin{enumerate}
-        \item $(R, \oplus)$~--- это коммутативный моноид, нейтральный элемент которого~--- $\bz$. Для любых $a, b, c \in R$:
+        \item $(R, \oplus)$~--- это коммутативный моноид, нейтральный элемент которого~--- $\Bbbzero$. Для любых $a, b, c \in R$:
               \begin{itemize}
                   \item $(a \oplus b) \oplus c = a \oplus (b \oplus c)$
-                  \item $\bz \oplus a = a \oplus \bz = a$
+                  \item $\Bbbzero \oplus a = a \oplus \Bbbzero = a$
                   \item $a \oplus b = b \oplus a$
               \end{itemize}
-        \item $(R, \otimes)$~--- это моноид, нейтральный элемент которого~--- $\bo$. Для любых $a, b, c \in R$:
+        \item $(R, \otimes)$~--- это моноид, нейтральный элемент которого~--- $\Bbbzero$. Для любых $a, b, c \in R$:
               \begin{itemize}
                   \item $(a \otimes b) \otimes c = a \otimes (b \otimes c)$
-                  \item $\bo \otimes a = a \otimes \bo = a$
+                  \item $\Bbbzero \otimes a = a \otimes \Bbbzero = a$
               \end{itemize}
         \item $\otimes$ дистрибутивно слева и справа относительно $\oplus$:
               \begin{itemize}
                   \item $a \otimes (b \oplus c) = (a \otimes b) \oplus (a \otimes c)$
                   \item $(a \oplus b) \otimes c = (a \otimes c) \oplus (b \otimes c)$
               \end{itemize}
-        \item $\bz$ является \emph{аннигилятором} по умножению:
+        \item $\Bbbzero$ является \emph{аннигилятором} по умножению:
               \begin{itemize}
-                  \item для любых $a \in R$ выполнено $\bz \otimes a = a \otimes \bz = \bz$
+                  \item для любых $a \in R$ выполнено $\Bbbzero \otimes a = a \otimes \Bbbzero = \Bbbzero$
               \end{itemize}
     \end{enumerate}
     Если операция $\otimes$ коммутативна, то говорят о \emph{коммутативном полукольце}.
@@ -321,20 +321,20 @@
 \begin{definition}[Кольцо]
     Непустое множество $R$ с двумя бинарными операциями $\oplus: R \times R \to R$ (умножение) и $\otimes: R \times R \to R$ (сложение) называется \emph{кольцом}, если выполнены следующие условия.
     \begin{enumerate}
-        \item $(R, \oplus)$~--- это абелева группа, нейтральный элемент которой~--- $\bz$.
+        \item $(R, \oplus)$~--- это абелева группа, нейтральный элемент которой~--- $\Bbbzero$.
               Для любых $a, b, c \in R$:
               \begin{itemize}
                   \item $(a \oplus b) \oplus c = a \oplus (b \oplus c)$
-                  \item $\bz \oplus a = a \oplus \bz = a$
+                  \item $\Bbbzero \oplus a = a \oplus \Bbbzero = a$
                   \item $a \oplus b = b \oplus a$
-                  \item для любого $a \in R$ существует $-a \in  R$, такой что $a + (-a) = \bz$.
+                  \item для любого $a \in R$ существует $-a \in  R$, такой что $a + (-a) = \Bbbzero$.
               \end{itemize}
               В последнем пункте кроется отличие от полукольца.
-        \item $(R, \otimes)$~--- это моноид, нейтральный элемент которого~--- $\bo$.
+        \item $(R, \otimes)$~--- это моноид, нейтральный элемент которого~--- $\Bbbzero$.
               Для любых $a, b, c \in R$:
               \begin{itemize}
                   \item $(a \otimes b) \otimes c = a \otimes (b \otimes c)$
-                  \item $\bo \otimes a = a \otimes \bo = a$
+                  \item $\Bbbzero \otimes a = a \otimes \Bbbzero = a$
               \end{itemize}
         \item $\otimes$ дистрибутивно слева и справа относительно $\oplus$:
               \begin{itemize}
@@ -344,24 +344,24 @@
     \end{enumerate}
 \end{definition}
 
-Заметим, что мультипликативное свойство $\bz$ (быть аннигилятором по умножению) не указыватеся явно, так как может быть выведено из остальных утверждений.
+Заметим, что мультипликативное свойство $\Bbbzero$ (быть аннигилятором по умножению) не указыватеся явно, так как может быть выведено из остальных утверждений.
 Действительно,
 \begin{enumerate}
-    \item $a \otimes \bz = a \otimes (\bz \oplus \bz)$, так как $\bz$~--- нейтральный по сложению, то $\bz \oplus \bz = \bz$
-    \item Воспользуемся дистрибутивностью: $a \otimes (\bz \oplus \bz) = a \otimes \bz \oplus a \otimes \bz$.
-          В итоге: $a \otimes \bz = a \otimes \bz \oplus a \otimes \bz$
-    \item Так как у нас есть группа по сложению, то для любого $a$ существует обратный элемент $a^{-1}$, $a \oplus a^{-1} = \bz$.
-          Прибавим $a^{-1} \otimes \bz$ к левой и правой части равенства%
+    \item $a \otimes \Bbbzero = a \otimes (\Bbbzero \oplus \Bbbzero)$, так как $\Bbbzero$~--- нейтральный по сложению, то $\Bbbzero \oplus \Bbbzero = \Bbbzero$
+    \item Воспользуемся дистрибутивностью: $a \otimes (\Bbbzero \oplus \Bbbzero) = a \otimes \Bbbzero \oplus a \otimes \Bbbzero$.
+          В итоге: $a \otimes \Bbbzero = a \otimes \Bbbzero \oplus a \otimes \Bbbzero$
+    \item Так как у нас есть группа по сложению, то для любого $a$ существует обратный элемент $a^{-1}$, $a \oplus a^{-1} = \Bbbzero$.
+          Прибавим $a^{-1} \otimes \Bbbzero$ к левой и правой части равенства%
           \sidenote{Обычно данное действие воспринимается как очевидное, но, строго говоря, оно требует аккуратного введения структур с равенством и соответствующих аксиом.}%
           , полученного на предыдущем шаге:
-          \[a \otimes \bz \oplus a^{-1} \otimes \bz = a \otimes \bz \oplus a \otimes \bz \oplus a^{-1} \otimes \bz.\]
+          \[a \otimes \Bbbzero \oplus a^{-1} \otimes \Bbbzero = a \otimes \Bbbzero \oplus a \otimes \Bbbzero \oplus a^{-1} \otimes \Bbbzero.\]
     \item Воспользуемся дистрибутивностью и ассоциативностью.
           \begin{align*}
-              (a \oplus a^{-1}) \otimes \bz & = a \otimes \bz \oplus (a  \oplus a^{-1}) \otimes \bz \\
-              \bz \otimes \bz               & = a \otimes \bz \oplus \bz \otimes \bz                \\
-              \bz                           & = a \otimes \bz
+              (a \oplus a^{-1}) \otimes \Bbbzero & = a \otimes \Bbbzero \oplus (a  \oplus a^{-1}) \otimes \Bbbzero \\
+              \Bbbzero \otimes \Bbbzero          & = a \otimes \Bbbzero \oplus \Bbbzero \otimes \Bbbzero           \\
+              \Bbbzero                           & = a \otimes \Bbbzero
           \end{align*}
-    \item Аналогично можно доказать, что $\bz = \bz \otimes a$.
+    \item Аналогично можно доказать, что $\Bbbzero = \Bbbzero \otimes a$.
 \end{enumerate}
 
 %\section{Поле}
