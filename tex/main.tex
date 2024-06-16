@@ -17,7 +17,9 @@
 \usepackage[]{pseudo}
 \newtcbtheorem{algorithm}{Листинг}{pseudo/booktabs, float, floatplacement=h, separator sign={.}}{algo}
 
-
+\pghyphenation[]{russian}{%
+тео-ре-ти-ко-мно-жест-вен-ных
+}
 
 \tikzexternalize
 
@@ -45,6 +47,7 @@
 
 \input{LinearAlgebra}
 \input{GraphTheoryIntro}
+\input{FormalLanguageTheoryIntro}
 
 \backmatter
 \setchapterstyle{plain}
