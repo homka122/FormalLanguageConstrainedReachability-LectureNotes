@@ -16,7 +16,7 @@
     headpunct=.,
     postheadspace=5pt plus 1pt minus 1pt,]{myStyleWithFrame}
 \declaretheoremstyle[spacebelow=\topsep,
-    headfont=\bfseries\sffamily,
+    headfont=\itshape\sffamily,
     bodyfont=\normalfont,
     headpunct=.,
     postheadspace=5pt plus 1pt minus 1pt,
@@ -36,21 +36,21 @@
     right = 0.5mm
 }
 
-% \tcolorboxenvironment{theorem}{}
+\tcolorboxenvironment{theorem}{}
 % \tcolorboxenvironment{theorem*}{}
 % \tcolorboxenvironment{axiom}{}
 % \tcolorboxenvironment{assertion}{}
-% \tcolorboxenvironment{lemma}{}
+\tcolorboxenvironment{lemma}{}
 % \tcolorboxenvironment{proposition}{}
 % \tcolorboxenvironment{corollary}{}
 \tcolorboxenvironment{definition}{}
 % \tcolorboxenvironment{proofReplace}{toprule=0mm,bottomrule=0mm,rightrule=0mm, colback=white, breakable }
 
-% \declaretheorem[name=Теорема, numberwithin=chapter, style=myStyleWithFrame]{theorem}
+\declaretheorem[name=Теорема, numberwithin=chapter, style=myStyleWithFrame]{theorem}
 % \declaretheorem[name=Теорема, numbered=no, style=myStyleWithFrame]{theorem*}
 % \declaretheorem[name=Аксиома, sibling=theorem, style=myStyleWithFrame]{axiom}
 % \declaretheorem[name=Преположение, sibling=theorem, style=myStyleWithFrame]{assertion}
-% \declaretheorem[name=Лемма, sibling=theorem, style=myStyleWithFrame]{lemma}
+\declaretheorem[name=Лемма, sibling=theorem, style=myStyleWithFrame]{lemma}
 % \declaretheorem[name=Предложение, sibling=theorem, style=myStyleWithFrame]{proposition}
 % \declaretheorem[name=Следствие, numberwithin=theorem, style=myStyleWithFrame]{corollary}
 
@@ -64,3 +64,5 @@
 % \declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{proofReplace}
 % \renewenvironment{proof}[1][\proofname]{\begin{proofReplace}}{\end{proofReplace}}
 % \declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{longProof}
+
+\declaretheorem[name={Набросок доказательства}, numbered=no, style=myProofStyleWithFrame]{proofSketch}
