@@ -61,8 +61,8 @@
 \declaretheorem[name=Пример, numberwithin=chapter, style=myStyle]{example}
 \declaretheorem[name=Замечание, numbered=no, style=myStyle]{remark}
 
-% \declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{proofReplace}
-% \renewenvironment{proof}[1][\proofname]{\begin{proofReplace}}{\end{proofReplace}}
+\declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{proofReplace}
+\renewenvironment{proof}[1][\proofname]{\begin{proofReplace}}{\end{proofReplace}}
 % \declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{longProof}
 
 \declaretheorem[name={Набросок доказательства}, numbered=no, style=myProofStyleWithFrame]{proofSketch}
