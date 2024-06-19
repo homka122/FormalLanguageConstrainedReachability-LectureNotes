@@ -23,15 +23,11 @@ jobs:
       - name: Compile LaTeX document
         uses: xu-cheng/latex-action@v3
         with:
-          root_file: tex/main.tex
+          root_file: tex/FormalLanguageConstrainedReachabilityLectureNotes.tex
           work_in_root_file_dir: true
           latexmk_use_lualatex: true
           extra_system_packages: "font-liberation"
           latexmk_shell_escape: true
-
-      - name: Rename PDF
-        run: |
-          mv tex/main.pdf tex/FormalLanguageConstrainedReachabilityLectureNotes.pdf
 
       - name: Upload PDF file
         uses: actions/upload-artifact@v4
