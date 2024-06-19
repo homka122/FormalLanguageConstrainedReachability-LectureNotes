@@ -521,7 +521,7 @@
 
 \begin{definition}[Скалярная операция]
     Пусть $G = (S, \circ)$~--- полугруппа, $M_{n \times m}$~--- матрица над этой полугруппой, $x \in S$.
-    Тогда $\mathrm{scalar}(M, x,\circ) = P_{n \times m}$, такая, что $P[i, j] = M[i, j] \circ x$, а $\mathrm{scalar}(x, M, \circ) = P_{n \times m}$, такая, что $P[i, j] = x \circ M[i, j]$.
+    Тогда $ M \circ x = P_{n \times m}$, такая, что $P[i, j] = M[i, j] \circ x$, а $x \circ M = P_{n \times m}$, такая, что $P[i, j] = x \circ M[i, j]$.
 \end{definition}
 
 \begin{example}
@@ -535,12 +535,12 @@
     \]
     Тогда
     \begin{gather*}
-        \mathrm{scalar}(M,x, \cdot) =
+        M \cdot x =
         \begin{pmatrix}
             "ac"  & "bac"  & "cbc" \\
             "acc" & "babc" & "bc"
         \end{pmatrix},\\
-        \mathrm{scalar}(x, M, \cdot) =
+        x \cdot M =
         \begin{pmatrix}
             "ca"  & "cba"  & "ccb" \\
             "cac" & "cbab" & "cb"
@@ -589,9 +589,9 @@
     \begin{multline*}
         K = M \otimes N = \\
         \begin{pmatrix}
-            \mathrm{scalar}(M[0,0],N,\circ)   & \cdots & \mathrm{scalar}(M[0,n-1],N,\circ)   \\
-            \vdots                            & \ddots & \vdots                              \\
-            \mathrm{scalar}(M[m-1,0],N,\circ) & \cdots & \mathrm{scalar}(M[m-1,n-1],N,\circ)
+            (M[0,0] \circ N  & \cdots & M[0,n-1] \circ N   \\
+            \vdots           & \ddots & \vdots             \\
+            M[m-1,0] \circ N & \cdots & M[m-1,n-1] \circ N
         \end{pmatrix}
     \end{multline*}
 \end{definition}
