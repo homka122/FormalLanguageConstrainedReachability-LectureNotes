@@ -414,7 +414,6 @@
 
 Примерами структурных операций является \emph{транспонирование}, \emph{взятие подматрицы} и \emph{взятие элемента по индексу}.
 
-\marginnote{
     \begin{example}
         Транспонирование матрицы.
         \[
@@ -429,7 +428,7 @@
             \end{pmatrix}
         \]
     \end{example}
-}
+
 \begin{definition}[Транспонирование матрицы]
     Пусть дана матрица $M_{n \times m}$.
     Тогда результат её \emph{транспонирования}, это такая матрица $M'_{m \times n}$, что $M'[i,j] = M[j,i]$ для всех $i \in [0 \rng m - 1]$ и $j \in [0 \rng n - 1]$.
@@ -450,40 +449,38 @@
     Где 0 обозначает нулевой блок. Прямая сумма обозначается $L = M \oplus N$.
 \end{definition}
 
-\marginnote{
-    \begin{example}
-        Взятие подматрицы.
-        \begin{multline*}
-            \begin{pmatrix}
-                "a"  & "ba"  & "cb" \\
-                "ac" & "bab" & "b"
-            \end{pmatrix} [0 \rng 1, 1 \rng 2] = \\
-            = \begin{pmatrix}
-                "ba"  & "cb" \\
-                "bab" & "b"
-            \end{pmatrix}
-        \end{multline*}
-    \end{example}
-}
 \begin{definition}[Взятие подматрицы]
     Пусть дана матрица $M_{n\times m}$.
     Тогда $M_{n \times m}[i_0 \rng i_1, j_0 \rng j_1]$~--- это такая $M'_{(i_1 - i_0 + 1) \times (j_1 - j_0 + 1)}$, что $M'[i, j] = M[i_0 + i, j_0 + j]$ для всех $i \in [0 \rng i_1 - i_0 + 1]$ и $j \in [0 \rng j_1 - j_0 + 1]$.
 \end{definition}
 
-\marginnote{
-    \begin{example}
-        Взятие элемента по индексу.
-        \[
-            \begin{pmatrix}
-                "a"  & "ba"  & "cb" \\
-                "ac" & "bab" & "b"
-            \end{pmatrix}[0, 1] = "ba"
-        \]
-    \end{example}
-}
+\begin{example}
+    Взятие подматрицы.
+    \begin{multline*}
+        \begin{pmatrix}
+            "a"  & "ba"  & "cb" \\
+            "ac" & "bab" & "b"
+        \end{pmatrix} [0 \rng 1, 1 \rng 2] = 
+        \begin{pmatrix}
+            "ba"  & "cb" \\
+            "bab" & "b"
+        \end{pmatrix}
+    \end{multline*}
+\end{example}
+
 \begin{definition}[Взятие элемента по индексу]
     \emph{Взятие элемента по индексу}~--- это частный случай взятия подматрицы, когда начало и конец \enquote{среза} совпадают: $M[i, j] = M[i \rng i, j \rng j]$.
 \end{definition}
+
+\begin{example}
+    Взятие элемента по индексу.
+    \[
+        \begin{pmatrix}
+            "a"  & "ba"  & "cb" \\
+            "ac" & "bab" & "b"
+        \end{pmatrix}[0, 1] = "ba"
+    \]
+\end{example}
 
 Из алгебраических операций над матрицами нас в дальнейшем будут интересовать \emph{поэлементные операции}, \emph{скалярные операции}, \emph{матричное умножение}, \emph{произведение Кронекера}.
 
@@ -587,7 +584,7 @@
     Пусть $G = (S, \circ)$~--- полугруппа, $M_{m \times n}$ и $N_{p \times q}$~--- две матрицы над этой полугруппой.
     Тогда \emph{произведение Кронекера} или \emph{тензорное произведение} матриц $M$ и $N$~--- это блочная матрица $K$ размера $mp \times nq$, вычисляемая следующим образом:
     \begin{multline*}
-        K = M \otimes N = \\
+        K = M \otimes N = 
         \begin{pmatrix}
             (M[0,0] \circ N  & \cdots & M[0,n-1] \circ N   \\
             \vdots           & \ddots & \vdots             \\
@@ -598,7 +595,7 @@
 
 \begin{remark}
     \label{note:KronIsNotCommutative}
-    Произведение Кронекера не является коммутативным.
+    Произведение Кронекера не является коммутативным\sidenote{Показать это можно по определению: найти пример, для которого $M \otimes N \neq N \otimes M$.}.
     При этом всегда существуют две матрицы перестановок $P$ и $Q$ такие, что $A \otimes B = P(B \otimes A)Q$.
 \end{remark}
 

@@ -3,7 +3,9 @@
 \label{CFG}
 \tikzsetfigurename{CFG_}
 
-Из всего многообразия нас будут интересовать прежде всего контекстно-свободные грамматики.
+Контекстно-свободные языки, являясь строгим расширением регулярных, находят своё применение в различных задачах анализа программного кода, биоинформатики~\sidecite{!!!}, и других задачах анализа данных.
+
+\section{Основные определения}
 
 \begin{definition}[Контекстно-свободная грамматика]
     \emph{Контекстно-свободная грамматика}~--- это четвёрка вида $\langle \Sigma, N, P, S \rangle$, где
@@ -159,6 +161,189 @@
     \[\{a^n b^n c^m \mid n, m \in \BbbZ\} \cup \{a^n b^m c^m \mid n,m \in \BbbZ\}\]
 \end{example}
 
+\section{Рекурсивные автоматы и сети}
+
+Рекурсивный автомат (Recursive state machine, RSM)~\sidecite{10.1145/1075382.1075387} или сеть~--- это представление контекстно-свободных грамматик, обобщающее конечные автоматы.
+В нашей работе мы будем придерживаться термина \emph{рекурсивный автомат}.
+Классическое определение рекурсивного автомата выглядит следующим образом.
+
+\begin{definition}
+    \emph{Рекурсивный автомат}~--- это кортеж $\mathcal{R} = \langle \mathcal{N},\Sigma,B,B_S,Q,Q_S\rangle$ where
+    \begin{itemize}
+       \item $N$~--- множество нетерминальных символов, 
+       \item $\Sigma$~--- множество терминальных символов, 
+       \item $Q$~--- множество состояний рекурсивного автомата, 
+       \item $Q_S$~--- множество стартовых состояний всех \emph{блоков}, 
+       \item $B=\{B_{N_i} \mid N_i \in \mathcal{N}\}$~--- множество блоков, где каждый \\ $B_{N_i} = \langle Q_{N_i}, q_S, Q_F^{N_i}, \delta \rangle$~--- это детерминированный конечный автомат, называемый \emph{блоком}.
+             Здесь:  
+            \begin{itemize}
+                \item $Q_{N_i} \subseteq Q$~--- множество состояний блока, 
+                \item $q_S \in Q_{N_i} \cap Q_S$~--- стартовое состояние блока, 
+                \item $Q_F^{N_i} \subseteq Q_{N_i}$~--- множество финальных состояний блока, 
+                \item $\delta \subseteq Q_{N_i} \times  (\Sigma\cup Q_S) \times Q_{N_i}$~--- функция переходов блока.
+            \end{itemize}
+       \item $B_S \in B$~--- стартовый блок рекурсивного автомата.
+    \end{itemize}
+\end{definition}
+
+Таким образом, рекурсивный автомат~--- это набор детерминированных конечных автоматов над алфавитом $\Sigma \cup Q_S$.
+В некоторых случаях наб будет удобно рассматривать этот набор как одн конечный автомат.
+Однако процесс работы рекурсивного автомата несколько отличается от работы конечного автомата, хотя и похож на него.
+Основное отличие~--- необходимость использовать стек для обработки переходов, помеченных элементами из $Q_S$.
+
+По аналогии с конечными автоматами, процесс работы рекурсивных автоматов достаточно естественно описывается в терминах переходов между \emph{конфигурациями}.
+
+\begin{definition}
+    \emph{Конфигурация} $C_{\mathcal{R}}$ рекурсивного автомата $\mathcal{R}=\langle \mathcal{N},\Sigma,B,B_S,Q,Q_S \rangle$ over the graph $D=\langle V,E,L \rangle$ is a tuple $(q,v,\mathcal{S})$ where 
+    \begin{itemize}
+        \item $q \in Q$ is a current state of RSM,
+        \item $\mathcal{S}$ is the current stack, whose frames have one of two types: 
+        \begin{itemize} 
+            \item return addresses frame (elements of $Q$) to specify states to continue computation after the call is finished;
+            \item parsing tree node to store fragments of a parsing tree,
+        \end{itemize}
+        \item $v \in V$ is the current vertex (current position in the input).
+    \end{itemize}
+\end{definition}
+
+\begin{definition}\label{def:rsm_transition}
+    A \emph{transition step} of the RSM specifies how to get new configurations of RSM, given the current configuration. $C_{\mathcal{R}} \vdash W$ denotes that $\mathcal{R}$ can go to each configuration in $W$ from the configuration $C_{\mathcal{R}}$.
+    \begin{align*}
+    (q,v,w_0::s::\mathcal{S})  \vdash & \{ (q',v',t::w_0::s::\mathcal{S}) \mid (q,t,q') \in \delta, (v,t,v') \in E\} \\
+                       & \cup \{(s', v, q'::w_0::s::\mathcal{S}) \mid (q,s',q') \in \delta, s' \in Q_S \} \\
+                       & \cup \{(s,v,\emph{Node}(N_i, w_0)::\mathcal{S}) \mid q \in Q_F^{N_i}\}
+    \end{align*}
+    where $w_0$ is a possibly empty sequence of terminals and nonterminal nodes. 
+\end{definition}
+
+To simplify the acceptance condition, we introduce the concept of an \textit{extended RSM}. 
+
+\begin{definition}
+    For the given RSM $\mathcal{R}=\langle \mathcal{N},\Sigma,B,B_S,Q,Q_S\rangle$,
+    the \textit{extended RSM} 
+    $$\mathcal{R}'=\langle \mathcal{N} \cup \{S'\},\Sigma \cup\{\$\},B \cup {B'_S},B'_S,Q \cup \{q_0',q_1',q_2'\},Q_S \cup \{q_0'\}\rangle$$
+    is an RSM which defines the same language and is built from $\mathcal{R}$ by adding a new start box 
+    $$B'_S = \langle \{q_0',q_1',q_2'\}, q_0', \{q_2'\}, \{(q_0',q_0,q_1'),(q_1',\$, q_2')\} \rangle$$ where 
+    \begin{itemize}
+        \item $q_0$ is a start state of $B_S$,
+        \item \$ is a special symbol to mark the end of input, $\$ \notin \Sigma$,
+        \item $q_i'$ are newly added states, $q_i'\notin Q$.
+    \end{itemize}
+\end{definition} 
+
+Finally, for the given extended RSM $\mathcal{R}$ and the given graph $D$ we say that $v_n$ is reachable from $v_0$  w.r.t. $\mathcal{R}$ if $(q'_0,v_0,[]) \vdash^* C$ such that $(q'_1,v_n,[N_S]) \in C$, where $\vdash^*$ denotes zero or more transition steps, and $N_S$ is a node for the start nonterminal of the original (not extended) RSM. Additionally, $N_S$ represents a respective path.
+
+Now we need a way to compute transitions and to build trees efficiently, avoiding recomputation and infinite cycles that are possible with the naive implementation.
+Moreover, we need a compact representation of all paths of interest whose number can be infinite.
+
+\subsection{Example}\label{section:example_of_rsm}
+
+\begin{marginfigure}
+    \begin{center}
+        \resizebox{\marginparwidth}{!}{
+            \begin{tikzpicture}[->,>=stealth']  
+
+                \node[initial,state]   (F)              {$q_4$};
+                \node[state]           (G) [right = of F] {$q_5$};
+                \node[accepting,state] (H) [right = of G] {$q_6$};
+                \node[draw=black, fit= (F) (G) (H), inner sep=0.25cm] (J) {};
+                \node[below right] at (J.north west) {S'};
+
+                \path (F) edge[below]              node {$q_0$} (G)
+                    (G) edge[below]              node {$\$$} (H); 
+
+                \node[initial,state] (A) [below = 2.6cm of F] {$q_0$};
+                \node[state]         (B) [right = of A] {$q_1$};
+                \node[state]         (D) [above right = of B] {$q_2$};
+                \node[accepting,state]         (C) [right = of B] {$q_3$};
+                \node [draw=black, fit= (A) (C) (D), inner sep=0.25cm] (E) {};
+                \node[below right] at (E.north west) {S};
+
+                \path (A) edge[below]              node {a} (B)
+                      (B) edge[left]               node {$q_0$} (D)
+                          edge[below]              node {b} (C)
+                      (D) edge[right]              node {b} (C);
+            \end{tikzpicture}
+       }
+    \end{center}    
+    \caption{Расширенный рекурсивный автомат для грамматики $S \to a \ b \mid a \ S \ b$}
+    \label{fig:example-rsm}
+\end{marginfigure}
+
+\begin{marginfigure}
+    \begin{center}
+
+        \begin{tikzpicture}[->,>=stealth',shorten >=1pt,auto,node distance=2.8cm, semithick]        
+
+        \node[state] (A)                    {$v_0$};
+        \node[state]         (B) [right of=A] {$v_1$};
+        
+        \path (A) edge  [loop left] node {a} (A)
+                    edge  [bend left] node {b} (B)
+                (B) edge  [bend left] node {b} (A);
+        \end{tikzpicture}
+    \end{center}
+    \caption{Пример входного графа}
+    \label{fig:input-graph}
+\end{marginfigure}
+
+In this section, we introduce a step-by-step example of the context-free constrained path querying using RSM and the naive computation strategy. 
+
+Suppose that the input is a graph $D$ presented in figure~\ref{fig:input-graph} and the grammar  $G$ has two productions $S \to a \ b \mid a \ S \ b$. The start vertex is $v_0$ and our goal to find at least one path to each reachable vertex (w.r.t. $G$). The extended RSM for the given grammar is presented in figure~\ref{fig:example-rsm}. 
+
+The initial configuration is $(q_4,v_0,[])$: we start from the initial state of the box for $S'$, the initial position in the graph is a start vertex $v_0$, the stack is empty. In each step, we apply rules from definition~\ref{def:rsm_transition} to compute new configurations. The sequence of transitions, presented below, allows us to find a path $$v_0 \xrightarrow{a} v_0 \xrightarrow{b} v_1$$
+from $v_0$ to $v_1$ (step~\ref{eq:naive-rsm-step-res-1}) and a path 
+$$v_0 \xrightarrow{a} v_0 \xrightarrow{a} v_0 \xrightarrow{b} v_1 \xrightarrow{b} v_0$$
+from $v_0$ to itself (step~\ref{eq:naive-rsm-step-res-2}). 
+
+\begin{align}
+\setcounter{equation}{0}
+(q_4,v_0,[])     \vdash & \{(q_0,v_0,[q_5])\} \\
+(q_0,v_0,[q_5])  \vdash & \{(q_1,v_0,[a,q_5])\} \\
+(q_1,v_0,[a,q_5])\vdash & \{(q_0,v_0,[q_2,a,q_5]) \nonumber\\ 
+                        & , (q_3,v_1,[b,a,q_5])\} \\
+(q_0,v_0,[q_2,a,q_5]) \vdash & \{(q_1,v_0,[a,q_2,a,q_5])\} \\
+(q_3,v_1,[b,a,q_5])   \vdash & \boxed{\{(q_5,v_1,[S(a,b)])\}} \label{eq:naive-rsm-step-res-1}\\
+(q_1,v_0,[a,q_2,a,q_5]) \vdash & \{(q_3,v_1,[b,a,q_2,a,q_5]) \nonumber \\
+                               & , (q_0,v_0,[q_2,a,q_2,a,q_5])\} \label{eq:naive-rsm-step-6} \\
+(q_3,v_1,[b,a,q_2,a,q_5]) \vdash & \{(q_2,v_1,[S(a,b),a,q_5])\} \\
+(q_2,v_1,[S(a,b),a,q_5]) \vdash & \{(q_3,v_0,[b,S(a,b),a,q_5])\} \\
+(q_3,v_0,[b,S(a,b),a,q_5]) \vdash & \boxed{\{(q_5,v_0,[S(a,S(a,b),b)])\}} \label{eq:naive-rsm-step-res-2}
+\end{align}
+
+Note that we have no conditions to stop computation. In our example, we can continue computation and get new paths between $v_0$ and $v_1$. Moreover, there is an infinite number of such paths. Additionally, the selection of the next step is not deterministic. One can choose the configuration $(q_0,v_0,[q_2,a,q_2,a,q_5])$ to continue computations after step~\ref{eq:naive-rsm-step-6} with chance to fall into an infinite cycle, but choosing $(q_3,v_1,[b,a,q_2,a,q_5])$ we get a new path.
+Построим рекурсивный автомат для грамматики $G$:
+\begin{align*}
+    S & \to    a S b \\
+    S & \to    a b
+\end{align*}
+
+\begin{figure}
+    \caption{Пример рекурсивного автомата для грамматики $G$.}
+    \label{input1}
+    \begin{tikzpicture}[node distance=2.5cm,shorten >=1pt,on grid,auto]
+        \node[state, initial] (q_0)   {$0 \{S\}$};
+        \node[state] (q_1) [right=of q_0] {$1$};
+        \node[state] (q_2) [right=of q_1] {$2$};
+        \node[state, accepting] (q_3) [right=of q_2] {$3\{S\}$};
+        \path[->]
+        (q_0) edge  node {a} (q_1)
+        (q_1) edge  node {S} (q_2)
+        (q_2) edge  node {b} (q_3)
+        (q_1) edge[bend left, above]  node {b} (q_3);
+    \end{tikzpicture}
+\end{figure}
+
+
+Используем стандартные обозначения для стартовых и финальных состояний.
+Дополнительно в стартовых и финальных состояниях укажем нетерминалы, для которых эти состояния стартовые/финальные.
+
+В некоторых случаях рекурсивный автомат можно рассматривать как конечный автомат над смешанным алфавитом.
+Именно такой взгляд мы будем использовать при изложении алгоритма.
+
+Пример интерпретации конечного автомата.
+
+
 \section{Дерево вывода}
 \label{sect:DerivTree}
 
@@ -167,22 +352,30 @@
 Таким представлением является \emph{дерево вывода}.
 
 \begin{definition}[Дерево вывода]
-    Деревом вывода цепочки $\omega$ в грамматике $G = \langle \Sigma, N, S, P \rangle$ называется дерево, удовлетворяющее следующим свойствам.
+    Деревом вывода цепочки $\omega$ в грамматике $G = \langle \Sigma, N, S, P \rangle$ называется корневое упорядоченное помеченное дерево, удовлетворяющее следующим свойствам.
     \begin{enumerate}
-        \item Помеченное: метка каждого внутреннего узла~--- нетерминал, метка каждого листа~--- терминал или $\varepsilon$.
-        \item Корневое: корень помечен стартовым нетерминалом.
-        \item Упорядоченное.
+        \item Метка каждого внутреннего узла~--- нетерминал. При этом метка корня~--- стартовый нетерминал
+        \item Метка каждого листа~--- терминал или $\varepsilon$.
         \item В дереве может существовать узел с меткой $N_i$ и сыновьями $M_j \dots M_k$ только тогда, когда в грамматике есть правило вида $N_i \to M_j \dots M_k$.
         \item Крона образует исходную цепочку $\omega$.
     \end{enumerate}
 \end{definition}
 
 \begin{example}
-    Построим дерево вывода цепочки $ababab$ в грамматике
-    \[ G = \langle \{a,b\}, \{S\}, S, \{S \to a \ S \ b \ S, S \to \varepsilon\} \rangle.\]
-    \begin{center}
-        \input{figures/cfl/tree0.tex}
-    \end{center}
+    Пуст дана грамматика
+    \begin{equation}
+        G = \langle \{a,b\}, \{S\}, S, \{S \to a \ S \ b \ S, S \to \varepsilon\} \rangle.\label{eq:grammar}
+    \end{equation}
+    Дерево вывода цепочки $abab$ в этой грамматике представлено на рисунке~\ref{fig:derivation_tree_example}. 
+    
+    \begin{marginfigure}
+        \begin{center}
+            \resizebox{\marginparwidth}{!}{\input{figures/cfl/tree0.tex}}
+        \end{center}
+        \caption{Дерева вывода цепочки $abab$ в грамматике~\ref{eq:grammar}}
+        \label{fig:derivation_tree_example}
+    \end{marginfigure}
+    
 \end{example}
 
 \begin{theorem}
@@ -418,31 +611,32 @@
     Нахождение разбиения и пример накачки продемонстрированы на рисунках~\ref{fig:pumping1} и~\ref{fig:pumping2}.
 \end{proofSketch}
 
-\begin{figure}
+\begin{marginfigure}
     \centering
     \input{figures/cfl/pumping1.tex}
     \caption{Разбиение цепочки для леммы о накачке}
     \label{fig:pumping1}
-\end{figure}
+\end{marginfigure}
 
-\begin{figure}
-    \centering
-    \begin{subfigure}[b]{0.4\textwidth}
+\begin{marginfigure}
+    \begin{center}
+    \begin{subfigure}{\marginparwidth}
         \centering
         \input{figures/cfl/pumping0.tex}
         \caption{$k = 0$.}
         % \label{fig:f1}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.4\textwidth}
+    
+    \begin{subfigure}{\linewidth}
         \centering
         \input{figures/cfl/pumping2.tex}
         \caption{$k = 2$.}
         % \label{fig:f2}
     \end{subfigure}
+\end{center}
     \caption{Пример накачки цепочки с рисунка~\ref{fig:pumping1}}
     \label{fig:pumping2}
-\end{figure}
+\end{marginfigure}
 
 Для примера предлагается проверить неконтекстно-свободность языка $L=\{a^nb^nc^n \mid n>0\}$.
 
@@ -512,58 +706,6 @@
     \end{enumerate}
 \end{proof}
 
-\section{Рекурсивные автоматы и сети}
-
-Рекурсивный автомат или сеть~--- это представление контекстно-свободных грамматик, обобщающее конечные автоматы.
-В нашей работе мы будем придерживаться термина \emph{рекурсивный автомат}.
-Классическое определение рекурсивного автомата выглядит следующим образом.
-
-\begin{definition}
-    Рекурсивный автомат~--- это кортеж вида $\langle N, \Sigma, S, D \rangle$, где
-    \begin{itemize}
-        \item $N$~--- нетерминальный алфавит;
-        \item $\Sigma$~--- терминальный алфавит;
-        \item $S$~--- стартовый нетерминал;
-        \item $D$~--- конечный автомат над $N \cup \Sigma$ в котором стартовые и финальные состояния помечены подмножествами $N$.
-    \end{itemize}
-\end{definition}
-
-Построение РКА по грамматике.
-
-Допущение о том, что все состояния занумерованы подряд и уникальны.
-
-Немного ссылок на работы по РКА.
-
-Построим рекурсивный автомат для грамматики $G$:
-\begin{align*}
-    S & \to    a S b \\
-    S & \to    a b
-\end{align*}
-
-\begin{figure}
-    \caption{Пример рекурсивного автомата для грамматики $G$.}
-    \label{input1}
-    \begin{tikzpicture}[node distance=2.5cm,shorten >=1pt,on grid,auto]
-        \node[state, initial] (q_0)   {$0 \{S\}$};
-        \node[state] (q_1) [right=of q_0] {$1$};
-        \node[state] (q_2) [right=of q_1] {$2$};
-        \node[state, accepting] (q_3) [right=of q_2] {$3\{S\}$};
-        \path[->]
-        (q_0) edge  node {a} (q_1)
-        (q_1) edge  node {S} (q_2)
-        (q_2) edge  node {b} (q_3)
-        (q_1) edge[bend left, above]  node {b} (q_3);
-    \end{tikzpicture}
-\end{figure}
-
-
-Используем стандартные обозначения для стартовых и финальных состояний.
-Дополнительно в стартовых и финальных состояниях укажем нетерминалы, для которых эти состояния стартовые/финальные.
-
-В некоторых случаях рекурсивный автомат можно рассматривать как конечный автомат над смешанным алфавитом.
-Именно такой взгляд мы будем использовать при изложении алгоритма.
-
-Пример интерпретации конечного автомата.
 
 
 

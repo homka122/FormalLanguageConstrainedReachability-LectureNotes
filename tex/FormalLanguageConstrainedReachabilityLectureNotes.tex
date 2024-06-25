@@ -10,16 +10,10 @@
 \input{styles/tikz.tex}
 \input{styles/math.tex}
 \input{styles/theorems.tex}
+\input{styles/algorithm.tex}
 
 \usepackage{kaobiblio} % Обертка для biblatex, позволяет печатать сноску сбоку
 \addbibresource{FormalLanguageConstrainedReachabilityLectureNotes.bib}
-
-\usepackage[]{pseudo}
-\newtcbtheorem{algorithm}{Листинг}{pseudo/booktabs, float, floatplacement=h, separator sign={.}}{algo}
-
-\usepackage{caption}
-\usepackage{subcaption}
-\usetikzlibrary {backgrounds}
 
 \newcommand*\circled[1]{\tikz[baseline=(char.base)]{
             \node[shape=circle,draw,inner sep=2pt] (char) {#1};}}

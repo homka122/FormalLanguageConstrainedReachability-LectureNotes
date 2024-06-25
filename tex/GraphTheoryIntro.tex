@@ -20,8 +20,7 @@
     В случае, если для любого ребра $(u, l, v)$ в графе также содержится ребро $(v, l, u)$, говорят, что граф \emph{неориентированный}.
 \end{definition}
 
-\marginnote{
-    \begin{example}
+    \begin{example}\label{exmpl:garph_visualization}
         Пусть дан граф
         \begin{align*}
             \mbfscrG_1 = \langle V & =\{0, 1, 2, 3\},                    \\
@@ -29,14 +28,19 @@
                                    & \ \ \ (2, b, 3), (3, b, 2)\},       \\
             L                      & =\{a, b\} \rangle.
         \end{align*}
-        Графическое представление графа $\mbfscrG_1$:
-        \begin{center}
-            \input{figures/graph/graph0}
-        \end{center}
-        $(0, a, 1)$ и $(3,b,2)$~--- это рёбра графа $\mbfscrG_1$.
+        Графическое представление графа $\mbfscrG_1$ представлено на рисунке~\ref{gr:garph_visualization}.
+        \begin{marginfigure}
+            \begin{center}
+                \resizebox{\marginparwidth}{!}{\input{figures/graph/graph0}}
+            \end{center}
+            \caption{Визуальное представление графа из примера~\ref{exmpl:garph_visualization}}
+            \label{gr:garph_visualization}
+        \end{marginfigure}
+
+        Тогда $(0, a, 1)$ и $(3,b,2)$~--- это рёбра графа $\mbfscrG_1$.
         При этом $(3, b, 2)$ и $(2, b, 3)$~--- это разные рёбра.
     \end{example}
-}
+
 В дальнейшем речь будет идти о конечных ориентированных помеченных графах.
 Мы будем использовать термин \emph{граф} подразумевая именно конечный ориентированный помеченный граф, если только не оговорено противное.
 
@@ -89,12 +93,12 @@
 Заметим, что наше определение матрицы смежности отличается от классического, в котором матрица является булевой и отражает лишь факт наличия хотя бы одного ребра.
 То есть $M[i,j] = 1 \iff \exists e = (i,\_,j) \in E$.
 
-\begin{marginfigure}
+\begin{marginfigure}    
+    \begin{center}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph1.tex}}
+    \end{center}
     \caption{Неориентированный граф}
     \label{gr:graph1}
-    \begin{center}
-        \input{figures/graph/graph1.tex}
-    \end{center}
 \end{marginfigure}
 \begin{example}[Пример матрицы смежности неориентированного графа]
     \label{exmpl:undirectedGraphMatrix}
@@ -136,11 +140,11 @@
 \end{example}
 
 \begin{marginfigure}
+    \begin{center}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph2.tex}}
+    \end{center}
     \caption{Ориентированный граф}
     \label{gr:graph2}
-    \begin{center}
-        \input{figures/graph/graph2.tex}
-    \end{center}
 \end{marginfigure}
 \begin{example}[Пример матрицы смежности ориентированного графа]
     \label{example:diGraph}
@@ -157,11 +161,11 @@
 \end{example}
 
 \begin{marginfigure}
+    \begin{center}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph3.tex}}
+    \end{center}
     \caption{Помеченный граф}
     \label{gr:graph3}
-    \begin{center}
-        \input{figures/graph/graph3.tex}
-    \end{center}
 \end{marginfigure}
 \begin{example}[Пример матрицы смежности помеченного графа]
     Пусть дан помеченный граф (см. рисунок \ref{gr:graph3}).
@@ -182,11 +186,11 @@
 Далее мы рассмотрим пример, в котором видно, как решаемая задача влияет на построение $\BbbG$.
 
 \begin{marginfigure}
+    \begin{center}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph4.tex}}
+    \end{center}
     \caption{Взвешенный граф}
     \label{gr:graph4}
-    \begin{center}
-        \input{figures/graph/graph4.tex}
-    \end{center}
 \end{marginfigure}
 \begin{example}[Пример матрицы смежности взвешенного графа]
     \label{example:apspGraph}
@@ -210,19 +214,18 @@
 Таким образом, уже можно заметить, что введение моноида как абстракции позволяет достаточно унифицированным образом смотреть на различные графы и их матрицы смежности.
 Далее мы увидим, что данный путь позволит решать унифицированным образом достаточно широкий круг задач, связанных с анализом путей в графах.
 Но сперва мы сформулируем различные варианты задачи поиска путей в графе.
-% Это необходимо для формулировки задач, на решение которых мы в конечном итоге нацелены.
 
 \section{Обход графа в ширину}
 
-Обход графа в ширину (Breadth-First Search, BFS)~--- это одна из фундаментальных задач анализа графов, для решения которой существует соответствующий алгоритм, изложенный в классической литературе.
-%(подробнее, например, в~\cite{} или~\cite{}).
-Данный алгоритм является основой для многих алгоритмов поиска в графе.
+Обход графа в ширину (Breadth-First Search, BFS)~--- это одна из фундаментальных задач анализа графов, для решения которой существует соответствующий алгоритм, изложенный в классической литературе
+\sidenote{Например, в~\cite{!!!} или~\cite{!!!}}.
+Более того, данный алгоритм является основой для многих алгоритмов поиска в графе.
 
 В общих чертах, задача заключается в том, чтобы начиная с некоторой заданной вершины графа (источника) обойти все достижимые из неё вершины в некотором порядке.
 Обход в ширину решает эту задачу и задаёт порядок посещения вершин с использованием \emph{фронта обхода} (или просто \emph{фронта}).
 \begin{definition}[Фронт обхода]
     \emph{Фронт обхода} графа $\mbfscrG = \langle V, E, L \rangle$~--- это вектор размера $|V|$, содержащий информацию%
-    \sidenote{В самом простом случае это будет будев вектор $F$ такой, что $F[i] = \textit{true}$ тогда и только тогда, когда $i$ достижима из стартовой вершины за заданное число шагов.}
+    \sidenote{В самом простом случае это будет будев вектор $F$ такой, что $F[i] = \textit{true}$ тогда и только тогда, когда \circled{$v_i$} достижима из стартовой вершины за заданное число шагов.}
      о вершинах графа, достижимых из стартовой ровно за $k$ шагов для заданного $k$.
     Иными словами, все вершины, информация о которых есть во фронте, достижимы из стартовой вершины за одинаковое число шагов.
 \end{definition}
@@ -239,7 +242,8 @@
             \node [circle, draw] (p1)                             {};
             \node [text width=0.1cm] (p2) [below = 0.3 of p1]     {$\vdots$};
             \node [circle, draw] (p3) [below = 0.3 of p2]         {};
-            \node [text width=0.1cm] (p4) [below = 0.3 of p3]     {$\vdots$};  
+            \node [text width=0.1cm] (p4) [below = 0.3 of p3]     {$\vdots$};
+            \node [text width=0.1cm] (p5) [left = 0.8 of p2]     {$\vdots$};  
             \begin{pgfonlayer}{background}
                 \path[fill=green,rounded corners]
                 ([yshift=5pt,xshift=-2pt] p1.north west) rectangle ([yshift=-5pt,xshift=2pt] p4.south east);
@@ -249,6 +253,7 @@
           \begin{scope}
             \node [circle, draw] (q1) [right = of p1]                          {};
             \node [text width=0.1cm] (q2)     [below = 0.3 of q1]              {$\vdots$};
+            \node [text width=0.1cm] (q4)     [right = 0.8 of q2]              {$\vdots$};
             \node [circle, draw] (q3) [below = 0.3 of q2]                      {};  
             \begin{pgfonlayer}{background}
                 \path[fill=yellow,rounded corners]
@@ -264,6 +269,9 @@
             (p3) edge (q3)
             (p2) edge (q2)
             (p4) edge (q2)
+            (p5) edge (p2)
+            (p5) edge (p4)
+            (q2) edge (q4)
             (new) edge [dashed] ([yshift=-5pt,xshift=-2.5pt] q3.south east)
             (current) edge [dashed] ([yshift=2.5pt, xshift=0.5pt] p4.south east)
             ;
@@ -279,10 +287,27 @@
     При этом, решения для частных случаев (деревья, ориентированные графы без циклов) предложены, например, в работе~\cite{10.1145/3315454.3329962}.}.
 Пусть фронт~--- вектор размера $n$, а сам граф представлен матрицей смежности.
 Тогда один шаг~--- просмотр всех смежных вершин для формирования нового нового фронта~--- это умножение текущего фронта на матрицу смежности.
-Для того, чтобы отслеживать уже посещённые вершины, поддерживается булев вектор \emph{visited} размера $|V|$, такой, что $\emph{visited}[i] = \emph{true}$ тогда и только тогда, когда  $i$ уже посещалась в процессе обхода.
+Для того, чтобы отслеживать уже посещённые вершины, поддерживается булев вектор \emph{visited} размера $|V|$, такой, что $\emph{visited}[i] = \emph{true}$ тогда и только тогда, когда  \circled{$v_i$} уже посещалась в процессе обхода.
 Данный вектор используется как маска для фильтрации кандидатов в новый фронт.
 
-Псевдокод алгоритма на ЛА
+\begin{algorithm}
+    %\SetAlgoLined
+    \KwData{$M$ --- булева матрица смежности графа\;
+            $k$ --- номер стартовой вершины}
+    \KwResult{Вектор !!!!}
+    $f[k] \leftarrow true$\;
+    $v \leftarrow -1$\;
+    $v \leftarrow 0$\;
+    $i \leftarrow 0$\;
+    \While{f \neq 0}{
+        $v \leftarrow v \cdot f$   \;
+        $f_1 \leftarrow f \cdot M$ \;
+        $f \leftarrow f_1 \cdot v$ \;
+    }
+    \KwRet{$v$}\;
+    \caption{Алгоритм обхода в ширину в терминах линейной алгебры}
+    \label{algo:BFS_linal}
+\end{algorithm}
 
 \begin{example}
 
@@ -350,7 +375,7 @@
     Состояние графа после первой итерации показано на рисунке~\ref{fig:bfs_step_1}.
     \begin{marginfigure}
         \begin{center}
-            \scalebox{0.8}{\input{figures/graph/graph_BFS_1.tex}}
+            \resizebox{\marginparwidth}{!}{\input{figures/graph/graph_BFS_1.tex}}
         \end{center}
         \caption{Обход в ширину, шаг первый}
         \label{fig:bfs_step_1}
@@ -373,7 +398,7 @@
 
 \begin{marginfigure}
     \begin{center}
-        \scalebox{0.8}{\input{figures/graph/graph_BFS_2.tex}}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph_BFS_2.tex}}
     \end{center}
     \caption{Обход в ширину, шаг второй}
     \label{fig:bfs_step_2}
@@ -396,7 +421,7 @@
 
 \begin{marginfigure}
     \begin{center}
-        \scalebox{0.8}{\input{figures/graph/graph_BFS_3.tex}}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph_BFS_3.tex}}
     \end{center}
     \caption{Обход в ширину, шаг третий}
     \label{fig:bfs_step_3}
@@ -411,7 +436,23 @@
 Для такой постановки задачи также предложен алгоритм, основанный на линейной алгебре~\sidecite{9286186}.
 Идея его такая же, как у рассмотренного выше, однако фронт~--- это уже не вектор, а матрица размера $k \times |V|$, где $k$~--- количество стартовых вершин, каждая строка которой является фронтом для одной из стартовых вершин.
 
-Псевдокод алгоритма на ЛА
+\begin{algorithm}
+    \SetAlgoLined
+    \KwData{this text}
+    \KwResult{how to write algorithm with \LaTeX2e }
+    initialization\;
+    \While{not at end of this document}{
+        read current\;
+        \eIf{understand}{
+            go to next section\;
+            current section becomes this one\;
+        }{
+            go back to the beginning of current section\;
+        }
+    }
+    \caption{Алгоритм поиска в ширину от нескольких стартовых вершин в терминах линейной алгебры}
+    \label{algo:MS-BFS_linal}
+\end{algorithm}
 
 \begin{example}
     Рассмотрим обход в ширину графа из примера~\ref{example:diGraph} начиная с вершин \circled{1} и \circled{3}.
@@ -420,7 +461,7 @@
     
 \begin{marginfigure}
     \begin{center}
-        \scalebox{0.8}{\input{figures/graph/graph_MS-BFS_1.tex}}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph_MS-BFS_1.tex}}
     \end{center}
     \caption{Обход в ширину с несколькими стартовыми вершинами, шаг первый}
     \label{fig:ms_bfs_step_1}
@@ -429,7 +470,7 @@
 Шаг 2~\ref{fig:ms_bfs_step_2}
 \begin{marginfigure}
     \begin{center}
-        \scalebox{0.8}{\input{figures/graph/graph_MS-BFS_2.tex}}
+        \resizebox{\marginparwidth}{!}{\input{figures/graph/graph_MS-BFS_2.tex}}
     \end{center}
     \caption{Обход в ширину с несколькими стартовыми вершинами, шаг второй}
     \label{fig:ms_bfs_step_2}
@@ -448,7 +489,7 @@
     \item Наличие хотя бы одного пути, удовлетворяющего ограничениям, в графе.
           В данном случае не важно, между какими вершинами существует путь, важно лишь наличие его в графе.
     \item Наличие пути, удовлетворяющего ограничениям, между некоторыми вершинами: задача достижимости.
-          При данной постановке задачи, нас интересует ответ на вопрос достижимости вершины $v_i$ из вершины $v_j$ по пути, удовлетворяющему ограничениям.
+          При данной постановке задачи, нас интересует ответ на вопрос достижимости вершины \circled{$v_i$} из вершины \circled{$v_j$} по пути, удовлетворяющему ограничениям.
           Такая постановка требует лишь проверить существование пути, но не его предоставления в явном виде.
     \item Поиск одного пути, удовлетворяющего ограничениям: необходимо не только установить факт наличия пути, но и  предъявить его.
           При этом часто подразумевается, что возвращается любой путь, являющийся решением, без каких-либо дополнительных ограничений.
@@ -573,18 +614,18 @@
 Если же возьмём булево полукольцо, то получим алгоритм для построения транзитивного замыкания графа.
 
 \begin{marginfigure}
-    \caption{Не полный граф}
-    \label{gr:graph2nottc}
     \begin{center}
         \input{figures/graph/graph2.tex}
     \end{center}
+    \caption{Не полный граф}
+    \label{gr:graph2nottc}
 \end{marginfigure}
 \begin{marginfigure}
-    \caption{Полный граф}
-    \label{gr:graph5}
     \begin{center}
         \input{figures/graph/graph5.tex}
     \end{center}
+    \caption{Полный граф}
+    \label{gr:graph5}
 \end{marginfigure}
 \begin{example}[Транзитивное замыкание графа]
     \label{exmpl:transitiveClosure}
