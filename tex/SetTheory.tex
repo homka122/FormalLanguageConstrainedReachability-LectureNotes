@@ -1,0 +1,87 @@
+\setchapterpreamble[u]{\margintoc}
+\chapter{Некоторые понятия теории множеств}
+\tikzsetfigurename{SetTheory_}
+
+Ниже мы введём некоторые понятия из теории множеств, которые будут необходимы при изложении дальнейшего материала.
+Мы будем полагать, что читатель знаком с понятием множества и лишь напомним некоторые моменты. 
+Подробное изучение !!! или же погружение в тему\sidenote{!!!} 
+
+\section{Основные определения}
+
+Множество, подмножество, множество всех подмножеств.
+
+Равенство множеств.
+
+Напомним определение основных операций над множествами (или же теоретико-множественные операций).
+
+\begin{definition}[Объединение множеств]
+    Множество $S$ $S_1$ $S_2$, записывается $S = S_1 \cup S_2$  $S = \{ x \mid x \in S_1 x \in S_2\}$  
+\end{definition}
+
+\begin{definition}[Пересечение множеств]
+    Множество $S$ $S_1$ $S_2$, записывается $S = S_1 \cap S_2$ $S = \{ x \mid x \in S_1 x \in S_2\}$
+\end{definition}
+
+\begin{definition}[Симметрическая разность множеств]
+    
+\end{definition}
+
+Некоторые свойства операций.
+
+
+
+Так как язык~--- это \emph{множество} слов, то над языками естественным образом определены теоретико-множественные операции, такие как объединение, пересечение, дополнение.
+\begin{itemize}
+    \item $L_1 \cup L_2 = \{ \omega \mid \omega \in L_1 \text{ или } \omega \in L_2\}$
+    \item $L_1 \cap L_2 = \{ \omega \mid \omega \in L_1 \text{ и } \omega \in L_2\}$
+    \item $\overline{L} = \{ \omega \mid \omega \in \Sigma^* \text{ и } \omega \notin L\}$, где $L$~--- язык над алфавитом $\Sigma$ .
+\end{itemize}
+
+
+\begin{definition}[Поэлеиентная операция над множествами]
+    Пусть дано множество $S$ с определённой на нём операцией $\odot: S \times S \to S$, $S_1 \subseteq S$, $S_2 \subseteq S$, тогда
+    \[S_1 \odot S_2 = \{ s_1 \odot s_2 \mid s_1 \in S_1, s_2 \in S_2\}.\]
+\end{definition}
+
+\begin{definition}[Степень множества]
+    Пусть дано множество $S$ с определённой на нём операцией $\odot: S \times S \to S$, $S_1 \subseteq S$, тогда
+    \[S_1^n = \{ \underbrace{s_1 \odot s_1 \odot \dots \odot s_1}_{\text{$n$ раз}} \mid s_1 \in S_1\}.\]
+    При этом\sidenote{В данном случае нулевая степень даёт единицу, как мы и привыкли.} $S_1^0 = \{\varepsilon\}$.
+\end{definition}
+
+\begin{definition}[Замыкание множества]
+    Пусть дано множество $S$ с определённой на нём операцией $\odot: S \times S \to S$, $S_1 \subseteq S$, тогда
+    \[S_1^* = \bigcup_{n = 0}^{\infty} S_1^n.\]
+\end{definition}
+
+\begin{definition}[Декартово произведение множеств]
+    Множество $S$ $S_1$ $S_2$, записывается $S = S_1 \times S_2$  $S = \{ (x,y) \mid x \in S_1, y \in S_2\}$  
+\end{definition}
+
+Пары упорядочены. Операция не коммутативна.
+
+\section{Отношения}
+
+Подмножество декартова произведения
+\begin{definition}[Отношение]
+    $R(x,y)$
+\end{definition}
+
+Рефлексивность
+\begin{definition}[Рефлексивное отношение]
+    $R(x,x)$
+\end{definition}
+
+
+Транзитивность.
+\begin{definition}[Транзитивное отношение]
+    $R(x,y)$ $R(y,z)$ $R(x,z)$
+\end{definition}
+
+\begin{definition}[Транзитивное замыкание отношения]
+    $R(x,y)$ $R(y,z)$ $R(x,z)$
+\end{definition}
+
+\begin{definition}[Рефлексивно-транзитивное замыкание отношения]
+    $R(x,y)$ $R(y,z)$ $R(x,z)$
+\end{definition}

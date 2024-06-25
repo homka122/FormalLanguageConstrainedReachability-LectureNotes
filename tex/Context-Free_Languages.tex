@@ -362,7 +362,7 @@ Note that we have no conditions to stop computation. In our example, we can cont
 \end{definition}
 
 \begin{example}
-    Пуст дана грамматика
+    Пусть дана грамматика
     \begin{equation}
         G = \langle \{a,b\}, \{S\}, S, \{S \to a \ S \ b \ S, S \to \varepsilon\} \rangle.\label{eq:grammar}
     \end{equation}
@@ -577,7 +577,7 @@ Note that we have no conditions to stop computation. In our example, we can cont
     \end{align*}
 \end{example}
 
-\begin{definition}[Ослабленная нормальная форма Хомского]
+\begin{definition}[Ослабленная нормальная форма Хомского (ОНФХ)]
     \label{defn:wCNF}
     Контекстно-свободная грамматика $\langle \Sigma, N, P, S\rangle$ находится в \emph{ослабленной Нормальной Форме Хомского}, если она содержит только правила следующего вида:
     \begin{itemize}
@@ -585,13 +585,14 @@ Note that we have no conditions to stop computation. In our example, we can cont
         \item $A \to a$, где $A \in N$, $a \in \Sigma$;
         \item $A \to \varepsilon$, где $A \in N$.
     \end{itemize}
-
-    То есть ослабленная НФХ отличается от НФХ тем, что:
-    \begin{enumerate}
-        \item $\varepsilon$ может выводиться из любого нетерминала;
-        \item $S$ может появляться в правых частях правил.
-    \end{enumerate}
 \end{definition}
+
+То есть ослабленная НФХ отличается от НФХ тем, что:
+\begin{enumerate}
+    \item $\varepsilon$ может выводиться из любого нетерминала;
+    \item $S$ может появляться в правых частях правил.
+\end{enumerate}
+
 
 \section{Лемма о накачке}
 
@@ -600,6 +601,7 @@ Note that we have no conditions to stop computation. In our example, we can cont
 \end{lemma}
 
 \begin{proofSketch}
+
     \begin{enumerate}
         \item Для любого КС языка можно найти грамматику в нормальной форме Хомского.
         \item Очевидно, что если брать достаточно длинные цепочки, то в дереве вывода этих цепочек, на пути от корня к какому-то листу обязательно будет нетерминал, встречающийся минимум два раза. Если $m$~--- количество нетерминалов в НФХ, то длины $2^{m+1}$ должно хватить. Это и будет $n$ из леммы.
@@ -657,7 +659,8 @@ Note that we have no conditions to stop computation. In our example, we can cont
     Для доказательства пунктов 1--4 можно построить КС грамматику нового языка имея грамматики для исходных.
     Будем предполагать, что множества нетерминальных символов различных грамматик для исходных языков не пересекаются.
     \begin{enumerate}
-        \item $G_1=\langle\Sigma_1,N_1,P_1,S_1\rangle$~--- грамматика для $L_1$, $G_1=\langle\Sigma_2,N_2,P_2,S_2\rangle$~--- грамматика для $L_2$, тогда $G_3=\langle\Sigma_1 \cup \Sigma_2, N_1 \cup N_2 \cup \{S_3\}, P_1 \cup P_2 \cup \{S_3 \to S_1 \mid S_2\} ,S_3\rangle$~--- грамматика для $L_3$.
+        \item $G_1=\langle\Sigma_1,N_1,P_1,S_1\rangle$~--- грамматика для $L_1$, $G_1=\langle\Sigma_2,N_2,P_2,S_2\rangle$~--- грамматика для $L_2$, тогда 
+        \[G_3=\langle\Sigma_1 \cup \Sigma_2, N_1 \cup N_2 \cup \{S_3\}, P_1 \cup P_2 \cup \{S_3 \to S_1 \mid S_2\} ,S_3\rangle\] ---~грамматика для $L_3$.
         \item $G_1=\langle\Sigma_1,N_1,P_1,S_1\rangle$~--- грамматика для $L_1$, $G_1=\langle\Sigma_2,N_2,P_2,S_2\rangle$~--- грамматика для $L_2$, тогда $G_3=\langle\Sigma_1 \cup \Sigma_2, N_1 \cup N_2 \cup \{S_3\}, P_1 \cup P_2 \cup \{S_3 \to S_1 S_2\} ,S_3\rangle$~--- грамматика для $L_3$.
         \item $G_1=\langle\Sigma_1,N_1,P_1,S_1\rangle$~--- грамматика для $L_1$, тогда $G_2=\langle\Sigma_1, N_1 \cup \{S_2\}, P_1 \cup \{S_2 \to S_1 S_2\ \mid \varepsilon\}, S_2\rangle$~--- грамматика для $L_2$.
         \item $G_1=\langle\Sigma_1,N_1,P_1,S_1\rangle$~--- грамматика для $L_1$, тогда $G_2=\langle\Sigma_1, N_1, \{N^i \to \omega^R \mid N^i \to \omega \in P_1 \}, S_1\rangle$~--- грамматика для $L_2$.
@@ -698,7 +701,7 @@ Note that we have no conditions to stop computation. In our example, we can cont
                     &         & T & \to b.
               \end{align*}
         \item Рассмотрим язык $L_6 = \overline{L'_6} = \overline{\{a^n b^m c^k \mid n \geq 0, m \geq 0, k \geq 0\}}$.
-              Данный язык является регулярным.
+              Данный язык является регулярным\sidenote{Предлагаем читателю самостоятельно написать регулярное выражение, задающее этот язык.}.
         \item Рассмотрим язык $L_7 = L_4 \cup L_5 \cup L_6$~--- контекстно-свободный, так как является объединением контекстно-свободных.
         \item Рассмотрим $\overline{L_7} = \{a^n b^n c^n \mid n \geq 0\} = L_3$: $L_4$ и $L_5$ задают языки с правильным порядком символов, но неравным их количеством, $L_6$ задаёт язык с неправильным порядком символов.
               Из предыдущего пункта мы знаем, что $L_3$  не является контекстно-свободным.
