@@ -1,0 +1,68 @@
+
+\usepackage{thmtools}
+
+%%% theorem-like envs
+\theoremstyle{definition}
+
+\declaretheoremstyle[spaceabove=0.5\topsep,
+    spacebelow=0.5\topsep,
+    headfont=\bfseries\sffamily,
+    bodyfont=\normalfont,
+    headpunct=.,
+    postheadspace=5pt plus 1pt minus 1pt]{myStyle}
+\declaretheoremstyle[spacebelow=\topsep,
+    headfont=\bfseries\sffamily,
+    bodyfont=\normalfont,
+    headpunct=.,
+    postheadspace=5pt plus 1pt minus 1pt,]{myStyleWithFrame}
+\declaretheoremstyle[spacebelow=\topsep,
+    headfont=\itshape\sffamily,
+    bodyfont=\normalfont,
+    headpunct=.,
+    postheadspace=5pt plus 1pt minus 1pt,
+    qed=\blacksquare]{myProofStyleWithFrame}
+
+\tcbuselibrary{breakable, skins}
+\tcbset{shield externalize}
+\tcbset{boxrule=0pt,
+    sharp corners,
+    borderline west={0.3mm}{0pt}{black},
+    frame hidden,
+    enhanced,
+    interior hidden,
+    left=2mm,
+    top = 1mm,
+    bottom = 1mm,
+    right = 0.5mm
+}
+
+\tcolorboxenvironment{theorem}{}
+% \tcolorboxenvironment{theorem*}{}
+% \tcolorboxenvironment{axiom}{}
+% \tcolorboxenvironment{assertion}{}
+\tcolorboxenvironment{lemma}{}
+% \tcolorboxenvironment{proposition}{}
+% \tcolorboxenvironment{corollary}{}
+\tcolorboxenvironment{definition}{}
+% \tcolorboxenvironment{proofReplace}{toprule=0mm,bottomrule=0mm,rightrule=0mm, colback=white, breakable }
+
+\declaretheorem[name=Теорема, numberwithin=chapter, style=myStyleWithFrame]{theorem}
+% \declaretheorem[name=Теорема, numbered=no, style=myStyleWithFrame]{theorem*}
+% \declaretheorem[name=Аксиома, sibling=theorem, style=myStyleWithFrame]{axiom}
+% \declaretheorem[name=Преположение, sibling=theorem, style=myStyleWithFrame]{assertion}
+\declaretheorem[name=Лемма, sibling=theorem, style=myStyleWithFrame]{lemma}
+% \declaretheorem[name=Предложение, sibling=theorem, style=myStyleWithFrame]{proposition}
+% \declaretheorem[name=Следствие, numberwithin=theorem, style=myStyleWithFrame]{corollary}
+
+\declaretheorem[name=Определение, numberwithin=chapter, style=myStyleWithFrame]{definition}
+% \declaretheorem[name=Свойство, numberwithin=chapter, style=myStyle]{property}
+% \declaretheorem[name=Свойства, numbered=no, style=myStyle]{propertylist}
+
+\declaretheorem[name=Пример, numberwithin=chapter, style=myStyle]{example}
+\declaretheorem[name=Замечание, numbered=no, style=myStyle]{remark}
+
+\declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{proofReplace}
+\renewenvironment{proof}[1][\proofname]{\begin{proofReplace}}{\end{proofReplace}}
+% \declaretheorem[name=Доказательство, numbered=no, style=myProofStyleWithFrame]{longProof}
+
+\declaretheorem[name={Набросок доказательства}, numbered=no, style=myProofStyleWithFrame]{proofSketch}

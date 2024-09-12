@@ -1,0 +1,28 @@
+\usepackage{tikz}
+\usetikzlibrary{arrows.meta}
+\usetikzlibrary{external}
+\usetikzlibrary{positioning}
+\usetikzlibrary{shapes.geometric}
+\usetikzlibrary{automata}
+\usetikzlibrary{decorations.pathmorphing}
+\usetikzlibrary{backgrounds}
+\usetikzlibrary{calc}
+\usetikzlibrary{arrows}
+\usetikzlibrary{fit}
+
+
+\tikzsetexternalprefix{figures/externalized/}
+
+% Required in RegularLanguages
+\tikzset{snake it/.style={decorate, decoration=snake}}
+\tikzset{
+    side by side/.style 2 args={
+            line width=2pt,
+            #1,
+            postaction={
+                    clip,postaction={draw,#2}
+                }
+        }
+}
+
+\tikzstyle{r_state} = [shape=rectangle, draw, minimum size=0.2cm]

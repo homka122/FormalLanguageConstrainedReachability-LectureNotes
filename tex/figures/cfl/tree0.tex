@@ -1,6 +1,6 @@
-\begin{tikzpicture}[sibling distance=4em,
+\begin{tikzpicture}[sibling distance=3em,
   every node/.style = {shape=rectangle, rounded corners,
-    draw, align=center}]]
+    draw, align=center}]
   \node {S}
     child { node {a} }
     child { node {S}
@@ -14,14 +14,7 @@
       }
       child { node {b} }
       child { node {S}
-        child {node {a}}
-        child {node {S}
           child {node {$\varepsilon$}}
         }
-        child {node {b}}
-        child {node {S}
-          child {node {$\varepsilon$}}
-        }
-      }
-    };
+      };
 \end{tikzpicture}

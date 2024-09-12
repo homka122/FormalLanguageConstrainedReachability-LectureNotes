@@ -1,0 +1,14 @@
+\usepackage{xurl} % Разрешить переносить URL на любой букве
+\usepackage[noheader]{gitver}
+\usepackage{caption}
+\usepackage{subcaption}
+
+\NewDocumentCommand{\email}{m}{\href{mailto:#1}{#1}} % Кликабельный email
+
+%% : с чуть более узки расстоянием по бокам.
+%% Определено в pseudo, потому пока что закомментировано
+ \NewDocumentCommand \rng { } {
+ \nolinebreak
+ \mathinner { : }
+ \nolinebreak
+ }

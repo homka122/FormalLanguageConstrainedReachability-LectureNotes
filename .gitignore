@@ -276,3 +276,5 @@ TSWLatexianTemp*
 *.lpz
 
 tex/FormalLanguageConstrainedReachabilityLectureNotes.pdf
+tex/figures/externalized/*
+!tex/figures/externalized/.gitkeep
